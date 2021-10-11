@@ -1,0 +1,21 @@
+id: ea953356-f6d1-42d4-b8b3-de58abe30701
+daw: 1
+metadata:
+  name: Chilly
+  description: ""
+  public: false
+  bpm: 120
+  key: C
+  genre: rap
+versions:
+  - version: 1
+    message: Init project
+    description: One of the best version in the entire world
+    id: UUID
+    tags:
+      - init
+      - arrange
+  - version: 2
+    message: Added drum kit
+    description: The drumkit is almost ready
+    id: UUID
