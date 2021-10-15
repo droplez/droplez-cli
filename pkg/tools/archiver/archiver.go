@@ -36,23 +36,22 @@ func Archive(path string) (archive string) {
 			return nil
 		}
 
-			// handle files
-			file, err := os.Open(fullPath)
-			if err != nil {
-				return err
-			}
-			defer file.Close()
+		// handle files
+		file, err := os.Open(fullPath)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
 
-			fmt.Println(zipPath)
-			f, err := w.Create(zipPath)
-			if err != nil {
-				return err
-			}
-			_, err = io.Copy(f, file)
-			if err != nil {
-				return err
-			}
-			return nil
+		fmt.Println(zipPath)
+		f, err := w.Create(zipPath)
+		if err != nil {
+			return err
+		}
+		_, err = io.Copy(f, file)
+		if err != nil {
+			return err
+		}
 		return nil
 	}
 

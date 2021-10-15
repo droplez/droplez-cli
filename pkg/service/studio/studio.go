@@ -78,19 +78,33 @@ func Version(path string, message string) (err error) {
 	if err != nil {
 		return err
 	}
+
+	fileSize, err := arch.Stat() 
+	if err != nil {
+		return err
+	}
+
+	conf.
+	// First sending metadata without content
+	stream.Send(&proto_uploader.Chunk{
+		Content: nil,
+		FileMetadata: &proto_uploader.Metadata{
+			Name:        "name",
+			ContentType: proto_uploader.Metadata_CONTENT_TYPE_ARCHIVE,
+			LocalName:   archive,
+			FileSize:    fileSize.Size(),
+			UserId:      "user id",
+		},
+	})
+
 	r := bufio.NewReader(arch)
 	for {
 		bytes, err := r.ReadBytes('\n')
 		if err == io.EOF {
 			break
-		} 
+		}
 		stream.Send(&proto_uploader.Chunk{
 			Content: bytes,
-			Metadata: &proto_uploader.FileMetadata{
-				Author:      "author",
-				Name:        "name",
-				Description: "description",
-			},
 		})
 
 	}
