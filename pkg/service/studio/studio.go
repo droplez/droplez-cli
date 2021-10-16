@@ -84,12 +84,11 @@ func Version(path string, message string) (err error) {
 		return err
 	}
 
-	conf.
 	// First sending metadata without content
 	stream.Send(&proto_uploader.Chunk{
 		Content: nil,
 		FileMetadata: &proto_uploader.Metadata{
-			Name:        "name",
+			Name: conf.Project.GetObjectName(),
 			ContentType: proto_uploader.Metadata_CONTENT_TYPE_ARCHIVE,
 			LocalName:   archive,
 			FileSize:    fileSize.Size(),
@@ -106,7 +105,6 @@ func Version(path string, message string) (err error) {
 		stream.Send(&proto_uploader.Chunk{
 			Content: bytes,
 		})
-
 	}
 
 	data, err := stream.CloseAndRecv()
@@ -132,7 +130,7 @@ func Version(path string, message string) (err error) {
 		},
 	}
 	conf.Versions = append(conf.Versions, version)
-
+	conf.Project.ObjectName = data.Uuid
 	err = config.WriteConfig(path, conf)
 	if err != nil {
 		return

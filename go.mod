@@ -3,7 +3,7 @@ module github.com/droplez/droplez-cli
 go 1.17
 
 require (
-	github.com/droplez/droplez-go-proto v0.0.1-init-17
+	github.com/droplez/droplez-go-proto v0.0.1-init-18
 	github.com/google/uuid v1.3.0
 	github.com/spf13/cobra v1.2.1
 	google.golang.org/grpc v1.41.0
