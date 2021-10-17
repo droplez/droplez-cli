@@ -3,7 +3,7 @@ module github.com/droplez/droplez-cli
 go 1.17
 
 require (
-	github.com/droplez/droplez-go-proto v0.0.1-init-27
+	github.com/droplez/droplez-go-proto v0.0.1
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/google/uuid v1.3.0
 	github.com/manifoldco/promptui v0.8.0
