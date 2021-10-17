@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/droplez/droplez-cli/pkg/service/studio"
+	"github.com/droplez/droplez-cli/pkg/cli/studio"
 	proto_projects "github.com/droplez/droplez-go-proto/pkg/studio/projects"
 	"github.com/spf13/cobra"
 )

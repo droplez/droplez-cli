@@ -7,13 +7,11 @@ import (
 	"io"
 	"log"
 	"os"
-	"path/filepath"
 	"time"
 
 	grpc_uploader "github.com/droplez/droplez-cli/pkg/grpc/uploader"
 	"github.com/droplez/droplez-cli/pkg/tools/archiver"
 	"github.com/droplez/droplez-cli/pkg/tools/config"
-	"github.com/droplez/droplez-cli/pkg/tools/daw"
 	proto_projects "github.com/droplez/droplez-go-proto/pkg/studio/projects"
 	proto_versions "github.com/droplez/droplez-go-proto/pkg/studio/versions"
 	proto_uploader "github.com/droplez/droplez-go-proto/pkg/uploader"
@@ -31,10 +29,10 @@ func Init(project *proto_projects.ProjectInfo, path string) {
 		Id: uuid.New().String(),
 	}
 
-	project.Daw = daw.GetProjectDAW(path)
-	if len(project.Metadata.GetName()) == 0 {
-		project.Metadata.Name = filepath.Base(filepath.Dir(path))
-	}
+	// project.Daw = daw.GetProjectDAW(path)
+	// if len(project.Metadata.GetName()) == 0 {
+		// project.Metadata.Name = filepath.Base(filepath.Dir(path))
+	// }
 
 	// create config struct
 	conf := &config.Config{
@@ -79,7 +77,7 @@ func Version(path string, message string) (err error) {
 		return err
 	}
 
-	fileSize, err := arch.Stat() 
+	fileSize, err := arch.Stat()
 	if err != nil {
 		return err
 	}
@@ -88,7 +86,7 @@ func Version(path string, message string) (err error) {
 	stream.Send(&proto_uploader.Chunk{
 		Content: nil,
 		FileMetadata: &proto_uploader.Metadata{
-			Name: conf.Project.GetObjectName(),
+			// Name:        conf.Project.GetObjectName(),
 			ContentType: proto_uploader.Metadata_CONTENT_TYPE_ARCHIVE,
 			LocalName:   archive,
 			FileSize:    fileSize.Size(),
@@ -107,12 +105,10 @@ func Version(path string, message string) (err error) {
 		})
 	}
 
-	data, err := stream.CloseAndRecv()
+	// data, err := stream.CloseAndRecv()
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(data.Uuid)
 
 	version := &proto_versions.VersionInfo{
 		Id: &proto_versions.VersionId{
@@ -126,11 +122,12 @@ func Version(path string, message string) (err error) {
 				return 1
 			}(conf.Versions),
 			Message:    message,
+			// VersionId:  data.Version,
 			UploadedAt: time.Now().Format("01-02-2006 15:04:05"),
 		},
 	}
 	conf.Versions = append(conf.Versions, version)
-	conf.Project.ObjectName = data.Uuid
+	// conf.Project.ObjectName = data.GetObject()
 	err = config.WriteConfig(path, conf)
 	if err != nil {
 		return
@@ -151,6 +148,3 @@ func Version(path string, message string) (err error) {
 *
 * TODO:
  */
-func Create() {
-
-}
